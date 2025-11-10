@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Motivator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      background: linear-gradient(135deg, #74ABE2, #5563DE);
+      color: #fff;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 1rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+    #quote-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      max-width: 700px;
+      transition: transform 0.3s ease;
+    }
+    #quote-box:hover {
+      transform: translateY(-5px);
+    }
+    #quote {
+      font-size: 1.8rem;
+      font-style: italic;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    #author {
+      font-size: 1rem;
+      color: #e0e0e0;
+    }
+    button {
+      margin-top: 2rem;
+      background: #fff;
+      color: #5563DE;
+      border: none;
+      border-radius: 30px;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      background: #f5f5f5;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+    footer {
+      position: absolute;
+      bottom: 15px;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.7);
+    }
+  </style>
+</head>
+<body>
+  <h1>✨ Motivational Quotes ✨</h1>
+  <div id="quote-box">
+    <p id="quote">Click below to get inspired!</p>
+    <p id="author"></p>
+  </div>
+  <button onclick="getQuote()">New Quote</button>
+
+  <footer>Powered by Flask · Built with ☕ and Motivation</footer>
+
+  <script>
+    async function getQuote() {
+      const res = await fetch('/quote');
+      const data = await res.json();
+
+      // Split the quote if it contains "—"
+      const [text, author] = data.quote.split("—").map(s => s.trim());
+      document.getElementById('quote').textContent = `“${text}”`;
+      document.getElementById('author').textContent = author ? `— ${author}` : '';
+    }
+  </script>
+</body>
+</html>
